@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: create-cluster-requests
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: ''
+    namespace: 'team-a'
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ack-gitops-kyverno/cluster/requests
+    repoURL: 'https://github.com/nirmata/demo-repository'
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: true

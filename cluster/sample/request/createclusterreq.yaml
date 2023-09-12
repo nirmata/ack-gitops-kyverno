@@ -1,0 +1,9 @@
+apiVersion: mgmt.nirmata.io/v1alpha1
+kind: CreateCluster
+metadata:
+  name: ack-test-cluster
+  labels:
+    test: test
+spec:
+  name: ack-test-cluster
+  desiredSize: 2

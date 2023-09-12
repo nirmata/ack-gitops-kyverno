@@ -1,0 +1,14 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Cluster
+metadata:
+  name: {{ .Values.cluster.name }}
+spec:
+  name:  {{ .Values.cluster.name }}
+  roleARN:  {{ .Values.cluster.roleARN }}
+  resourcesVPCConfig:
+    endpointPrivateAccess: false
+    endpointPublicAccess: true
+    subnetIDs:
+    {{- with .Values.cluster.subnets }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}

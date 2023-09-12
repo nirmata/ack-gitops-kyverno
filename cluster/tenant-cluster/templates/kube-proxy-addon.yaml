@@ -1,0 +1,8 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Addon
+metadata:
+  name: {{ .Values.cluster.name }}-kube-proxy
+spec:
+  name: kube-proxy
+  addonVersion: v1.23.7-eksbuild.1
+  clusterName: {{ .Values.cluster.name }}

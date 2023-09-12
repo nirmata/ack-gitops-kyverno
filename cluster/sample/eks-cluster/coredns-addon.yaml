@@ -1,0 +1,8 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Addon
+metadata:
+  name: test-cluster-coredns
+spec:
+  name: coredns
+  addonVersion: v1.8.7-eksbuild.2
+  clusterName: test-cluster

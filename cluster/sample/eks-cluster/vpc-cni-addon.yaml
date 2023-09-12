@@ -1,0 +1,8 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Addon
+metadata:
+  name: test-cluster-vpc-cni
+spec:
+  name: vpc-cni
+  addonVersion: v1.10.4-eksbuild.1
+  clusterName: test-cluster

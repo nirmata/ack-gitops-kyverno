@@ -1,0 +1,13 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Cluster
+metadata:
+  name: test-cluster
+spec:
+  name: test-cluster
+  roleARN:  <cluster role ARN>
+  resourcesVPCConfig:
+    endpointPrivateAccess: true
+    endpointPublicAccess: false
+    subnetIDs:
+    - <subnet-1>
+    - <subnet-2>

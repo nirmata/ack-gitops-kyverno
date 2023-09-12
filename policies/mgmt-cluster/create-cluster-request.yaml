@@ -1,0 +1,83 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: generate-application
+  annotations:
+    policies.kyverno.io/title: Argo Application Creation
+    policies.kyverno.io/category: Argo
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: CreateCluster
+    kyverno.io/kyverno-version: 1.7.1
+    policies.kyverno.io/minversion: 1.7.0
+    kyverno.io/kubernetes-version: "1.23"
+    policies.kyverno.io/description: >-
+      This policy trigger application creation in ArgoCD
+spec:
+  background: true
+  generateExistingOnPolicyUpdate: false
+  rules:
+    - name: generate-application
+      match:
+        all:
+        - resources:
+            kinds:
+            - mgmt.nirmata.io/v1alpha1/CreateCluster
+      preconditions:
+        all:
+        - key: "{{request.operation || 'BACKGROUND'}}"
+          operator: Equals
+          value: CREATE
+      context:
+      - name: clusterName
+        variable:
+          value: "{{ request.object.spec.name }}"
+      - name: extraLabels
+        variable:
+          value:
+            clusterId: "{{ request.object.metadata.uid }}"
+            clusterType: "tenant" 
+      - name: desiredSize
+        variable:
+          value: "{{  request.object.spec.desiredSize}}"
+      - name: clusterValues
+        variable:
+          value: |
+            cluster:
+              name: {{ clusterName }}
+              roleARN: arn:aws:iam::844333597536:role/eks-role
+              subnets: 
+              - "subnet-0dff3fad15acc9156"
+              - "subnet-0ed4ba827d3066107"
+              nodeRoleARN: arn:aws:iam::844333597536:role/Node-IAM-Role
+              desiredSize: {{ desiredSize }}
+          jmesPath: 'to_string(@)'
+      generate:
+        synchronize: true
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        name: "{{ clusterName }}-create-req"
+        namespace: argocd
+        data:
+          metadata:
+            name: cluster-app
+            namespace: argocd
+            finalizers:
+            - resources-finalizer.argocd.argoproj.io           
+            labels:
+              "{{ extraLabels }}"
+          spec:
+            destination:
+              name: ''
+              namespace: 'team-a'
+              server: 'https://kubernetes.default.svc'
+            source:
+              path: ack-gitops-kyverno/cluster/tenant-cluster 
+              repoURL: 'https://github.com/nirmata/demo-repository'
+              targetRevision: HEAD
+              helm:
+                values: |
+                  {{ clusterValues }}
+            project: default
+            syncPolicy:
+              automated:
+                prune: true

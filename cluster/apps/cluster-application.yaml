@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: ''
+    namespace: 'team-a'
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ack-gitops-kyverno/cluster/tenant-cluster 
+    repoURL: 'https://github.com/nirmata/demo-repository'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  project: default
+  syncPolicy:
+    automated:
+      prune: true

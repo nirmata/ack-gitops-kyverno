@@ -1,0 +1,16 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Nodegroup
+metadata:
+  name: {{ .Values.cluster.name }}-default-ng
+spec:
+  name: {{ .Values.cluster.name }}-default-ng
+  clusterName: {{ .Values.cluster.name }}
+  subnets:
+    {{- with .Values.cluster.subnets }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  nodeRole: {{ .Values.cluster.nodeRoleARN }}
+  scalingConfig:
+    minSize: {{ .Values.cluster.desiredSize }}
+    maxSize: {{ .Values.cluster.desiredSize }} 
+    desiredSize: {{ .Values.cluster.desiredSize }}

@@ -1,0 +1,12 @@
+# Default values for tenant-cluster.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+cluster:
+  name: ack-cluster
+  roleARN: arn:aws:iam::844333597536:role/eks-role
+  subnets: 
+  - "subnet-0dff3fad15acc9156"
+  - "subnet-0ed4ba827d3066107"
+  nodeRoleARN: arn:aws:iam::844333597536:role/Node-IAM-Role
+  desiredSize: 1

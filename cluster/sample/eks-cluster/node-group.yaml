@@ -1,0 +1,15 @@
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: Nodegroup
+metadata:
+  name: test-cluster-nodegroup
+spec:
+  name: test-cluster-nodegroup
+  clusterName: test-cluster
+  subnets:
+  - <subnet0>
+  - <subnet0>
+  nodeRole: <nodeIAMRole>
+  scalingConfig:
+    minSize: 1
+    maxSize: 1 
+    desiredSize: 1
