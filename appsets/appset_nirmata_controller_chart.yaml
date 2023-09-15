@@ -23,9 +23,9 @@ spec:
     spec:
       project: "default"
       source:
-        repoURL: https://github.com/nirmata/demo-repository
+        repoURL: https://github.com/nirmata/ack-gitops-kyverno
         targetRevision: HEAD
-        path: ack-gitops-kyverno/addons/nirmata-controller/chart
+        path: addons/nirmata-controller/chart
         helm:
           values: |
             cluster:
