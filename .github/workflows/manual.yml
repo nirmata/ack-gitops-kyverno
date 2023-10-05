@@ -35,10 +35,6 @@ jobs:
         cp demo/template/cluster-claim-template.yaml demo/clusters/${{ inputs.clustername }}-cluster.yaml
     - name: Commit file
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -m "Create cluster" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        git add demo/clusters/${{ inputs.clustername }}-cluster.yaml
+        git commit -m "Created cluster claim"
+        git push origin master
