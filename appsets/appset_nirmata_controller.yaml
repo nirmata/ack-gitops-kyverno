@@ -22,9 +22,9 @@ spec:
     spec:
       project: "default"
       source:
-        repoURL: https://github.com/nirmata/demo-repository
+        repoURL: https://github.com/nirmata/ack-gitops-kyverno
         targetRevision: HEAD
-        path: ack-gitops-kyverno/addons/nirmata-controller
+        path: addons/nirmata-controller
       destination:
         server: '{{server}}'
         namespace: nirmata
