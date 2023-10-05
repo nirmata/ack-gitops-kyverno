@@ -30,9 +30,15 @@ jobs:
     - name: Checkout template
       uses: actions/checkout@v2
     # Runs a single command using the runners shell
-    - name: Generate cluster yaml
+    - name: Generate cluster claim
       run: |
         cp demo/template/cluster-claim-template.yaml demo/clusters/${{ inputs.clustername }}-cluster.yaml
+    - name: Update cluster claim
+      uses: MathieuSoysal/replace-string-in-file@v1.0.0
+      with:
+        file: demo/clusters/${{ inputs.clustername }}-cluster.yaml
+        old-string: "{{cluster-name}}"
+        new-string: "${{ inputs.clustername }}"
     - name: Setup git config
       run: |
         # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
