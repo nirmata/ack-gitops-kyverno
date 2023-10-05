@@ -32,3 +32,13 @@ jobs:
     # Runs a single command using the runners shell
     - name: Generate cluster yaml
       run: |
+        cp demo/template/cluster-claim-template.yaml demo/cluster/${{ inputs.username }}-cluster.yaml
+    - name: Commit file
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Create cluster" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
