@@ -32,7 +32,7 @@ jobs:
     # Runs a single command using the runners shell
     - name: Generate cluster yaml
       run: |
-        cp demo/template/cluster-claim-template.yaml demo/cluster/${{ inputs.clustername }}-cluster.yaml
+        cp demo/template/cluster-claim-template.yaml demo/clusters/${{ inputs.clustername }}-cluster.yaml
     - name: Commit file
       run: |
         git config --local user.email "action@github.com"
