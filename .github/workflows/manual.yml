@@ -33,6 +33,11 @@ jobs:
     - name: Generate cluster yaml
       run: |
         cp demo/template/cluster-claim-template.yaml demo/clusters/${{ inputs.clustername }}-cluster.yaml
+    - name: Setup git config
+      run: |
+        # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
     - name: Commit file
       run: |
         git add demo/clusters/${{ inputs.clustername }}-cluster.yaml
